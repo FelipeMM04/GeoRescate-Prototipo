@@ -155,11 +155,12 @@ else:
     st.success(f"✅ Validación estructural y probabilística aprobada | Escenario activo: **{escenario_seleccionado}**")
 
 # 8. CREACIÓN DE LAS 4 PANTALLAS / PESTAÑAS DEL PROTOTIPO
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "1️⃣ Variables y Escenario",
     "2️⃣ Tablero de Indicadores (KPIs)",
     "3️⃣ Mapa SIG de Zonas de Interés",
-    "4️⃣ Reporte Ejecutivo y Costos"
+    "4️⃣ Reporte Ejecutivo y Costos",
+    "5️⃣ Planes y Precios"
 ])
 
 # --- PANTALLA 1: VARIABLES DEL MODELO Y DATOS BASE ---
@@ -293,3 +294,50 @@ with tab4:
         {"Rubro": "TOTAL ESTIMADO", "Detalle": "Inversión directa requerida", "Costo Prototipo (MVP)": "$0 COP", "Costo Mensual (Piloto)": "$4.800.000 COP"}
     ])
     st.table(df_costos)
+
+# --- PANTALLA 5: PLANES Y PRECIOS (ESTIMACIÓN MVP PRODUCTIVO EN USD) ---
+with tab5:
+    st.subheader("Estimación de Inversión: Escalamiento a MVP Productivo (USD)")
+    st.caption("Desglose técnico y financiero para llevar el prototipo actual a una plataforma operativa completa en producción.")
+
+    df_precios_usd = pd.DataFrame([
+        {
+            "Rubro / Componente": "Arquitectura y Backend",
+            "Descripción Técnica": "Migración de lógica Python/Streamlit a APIs robustas (FastAPI/Node.js), autenticación y base de datos geoespacial (PostgreSQL + PostGIS).",
+            "Estimación (USD)": "$4,000 – $9,000"
+        },
+        {
+            "Rubro / Componente": "Frontend Web / Panel de Control",
+            "Descripción Técnica": "Interfaz operativa en tiempo real para despachadores o coordinadores (React/Next.js + mapas interactivos).",
+            "Estimación (USD)": "$3,500 – $7,500"
+        },
+        {
+            "Rubro / Componente": "App Móvil (Opcional)",
+            "Descripción Técnica": "Aplicación para brigadistas o ciudadanos con envío de ubicación GPS en segundo plano y modo offline (Flutter/React Native).",
+            "Estimación (USD)": "$5,000 – $12,000"
+        },
+        {
+            "Rubro / Componente": "Integraciones y Alertas",
+            "Descripción Técnica": "Conexión con pasarelas SMS/WhatsApp, notificaciones push, servicios meteorológicos o sensores externos.",
+            "Estimación (USD)": "$1,200 – $3,000"
+        },
+        {
+            "Rubro / Componente": "Pruebas, Seguridad y Despliegue",
+            "Descripción Técnica": "Pruebas de carga, cifrado de datos sensibles, configuración CI/CD y despliegue en nube.",
+            "Estimación (USD)": "$1,500 – $3,000"
+        },
+        {
+            "Rubro / Componente": "Subtotal Desarrollo (MVP Productivo)",
+            "Descripción Técnica": "Rango según si incluye app móvil nativa o solo web progresiva (PWA).",
+            "Estimación (USD)": "$15,200 – $34,500"
+        }
+    ])
+
+    st.dataframe(df_precios_usd, use_container_width=True, hide_index=True)
+
+    st.divider()
+    col_p1, col_p2 = st.columns(2)
+    with col_p1:
+        st.info("**💡 Opción Web Progresiva (PWA):**\n\nInversión estimada desde **$15,200 USD** (sin desarrollo de app móvil nativa).")
+    with col_p2:
+        st.success("**🚀 Opción Completa (Web + App Móvil):**\n\nInversión estimada hasta **$34,500 USD** (incluye app offline con GPS para brigadistas).")    
